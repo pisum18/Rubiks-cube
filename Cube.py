@@ -1,6 +1,5 @@
 #!"C:\Users\Iemand\Documents\PythonVenv\RubiksCube\Scripts\python.exe"
 
-from re import L
 import numpy as np
 import cython
 
@@ -28,13 +27,10 @@ class Cube:
         elif (mode == 2): MoveTwice = True
 
         if (MoveClockwise):
-            NewLeftColumn = self.TopLayer.Layer[0][:].transpose()
-            NewMiddleColumn = self.TopLayer.Layer[1][:].transpose()
-            NewRightColumn = self.TopLayer.Layer[2][:].transpose()
+            NewTopLayer = self.TopLayer.Layer.transpose()
+            print(NewTopLayer, self.TopLayer.Layer)
+            self.TopLayer.Layer = NewTopLayer
 
-            self.TopLayer.Layer[:][0] = NewLeftColumn
-            self.TopLayer.Layer[:][1] = NewMiddleColumn
-            self.TopLayer.Layer[:][2] = NewRightColumn
 
 
     def VisualizeCube(self):
@@ -54,9 +50,9 @@ class Cube:
         print(outputstring)
 
     def VisualizeLayer(self, Layer):
-        outputstring = Layer[0][0].decode() + Layer[0][1].decode() + Layer[0][2].decode() + "\r\n"
-        outputstring += Layer[1][0].decode() + Layer[1][1].decode() + Layer[1][2].decode() + "\r\n"
-        outputstring += Layer[2][0].decode() + Layer[2][1].decode() + Layer[2][2].decode() + "\r\n"
+        outputstring = Layer[0,0].decode() + Layer[0,1].decode() + Layer[0,2].decode() + "\r\n"
+        outputstring += Layer[1,0].decode() + Layer[1,1].decode() + Layer[1,2].decode() + "\r\n"
+        outputstring += Layer[2,0].decode() + Layer[2,1].decode() + Layer[2,2].decode() + "\r\n"
         return outputstring
 
         # subclasses
@@ -65,21 +61,12 @@ class Cube:
             self.Layer = np.chararray((size, size))
             self.Layer.fill(fill)
 
-        def FillLayer(self):
-            for i in range(size):
-                for j in range(size):
-                    self.Layer[i][j] = (i + 1) * (j + 1)
-
-        #def Move(self, Layer):
-
-
 
 
 if __name__ == "__main__":
     size = 3
     NewCube = Cube(size)
 
-    NewCube.TopLayer.FillLayer()
     NewCube.AffectUpper(0)
 
     NewCube.VisualizeCube()
